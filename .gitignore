@@ -10,3 +10,6 @@ build/
 # Ignore a specific file
 config.json
 
+.DS_Store
+.idea
+HELP.md
