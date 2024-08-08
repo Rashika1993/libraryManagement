@@ -1,7 +1,6 @@
 package com.library.filters;
 
 import com.library.services.UserAccessService;
-import com.library.services.UserService;
 import jakarta.servlet.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,8 +13,6 @@ public class AuthFilter implements Filter {
 
     @Autowired
     UserAccessService userAccessService;
-    @Autowired
-    UserService userService;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
