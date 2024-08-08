@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 public class Book {
 
-    Long bookId=0l;
+    Long bookId;
     String bookName;
     Source source;
     BookAvailabilityStatus bookAvailabilityStatus;
