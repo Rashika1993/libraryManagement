@@ -2,17 +2,12 @@ package com.library.serviceImpl.inventory;
 import com.library.entities.Book;
 import com.library.entities.User;
 import com.library.enums.Source;
-import com.library.services.UserService;
+import com.library.services.BooksService;
 import com.library.services.inventory.InventoryAddition;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.*;
-
 
 public class AddBulkInventory extends InventoryAddition {
     MultipartFile multipartFile;
@@ -25,7 +20,7 @@ public class AddBulkInventory extends InventoryAddition {
         if(map.get("file")!=null) {
             multipartFile = (MultipartFile) map.get("file");
         }
-
+        booksService= (BooksService) map.get("booksService");
     }
     @Override
     public Map<Book,String> addInventory(List<Book> books) {

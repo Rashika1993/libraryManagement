@@ -19,6 +19,8 @@ public class UserAccessServiceImpl implements UserAccessService {
     public UserAccessServiceImpl(UserService userService) {
         this.userService = userService;
     }
+
+    @Override
     public boolean checkIfUserAuthorised(Long currentUserId) {
         User user=userService.findById(currentUserId);
         if(user!=null && user.getUserType()== UserType.ADMIN){

@@ -3,6 +3,7 @@ package com.library.serviceImpl;
 import com.library.entities.Book;
 import com.library.enums.BookAvailabilityStatus;
 import com.library.services.BooksService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -35,7 +36,7 @@ class BooksServiceImpl implements BooksService {
         return null;
     }
     public Book addBook(Book book){
-        if(book!=null) {
+        if(book!=null && book.getBookName()!=null && book.getBookName().trim()!="") {
             Book newBook = new Book(book);
             newBook.setBookId(bookId.incrementAndGet());
             if(!bookMap.containsKey(book.getBookName())){
@@ -44,8 +45,6 @@ class BooksServiceImpl implements BooksService {
             if(newBook!=null){
                 bookMap.get(newBook.getBookName()).put(newBook.getBookId(),newBook);
                 bookIdMap.put(newBook.getBookId(),newBook);
-                System.out.println("bookMap"+bookMap);
-                System.out.println("bookIdMap"+bookMap);
                 return newBook;
             }
         }

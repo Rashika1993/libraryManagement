@@ -3,16 +3,11 @@ package com.library.serviceImpl.inventory;
 import com.library.entities.Book;
 import com.library.entities.User;
 import com.library.enums.Source;
-import com.library.services.UserService;
+import com.library.services.BooksService;
 import com.library.services.inventory.InventoryAddition;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 public class AddInventoryFromDB extends InventoryAddition {
 
@@ -21,6 +16,7 @@ public class AddInventoryFromDB extends InventoryAddition {
         if(map.get("user")!=null) {
             addedBy = (User) map.get("user");
         }
+        booksService= (BooksService) map.get("booksService");
     }
     @Override
     public Map<Book,String> addInventory(List<Book> books) {

@@ -26,20 +26,21 @@ public class InventoryController {
     UserService userService;
 
     @PostMapping("/upload/bulk")
-    ResponseEntity<Map<Book,String>> addInventoryInBulk(@RequestParam("file") MultipartFile file, @RequestHeader("X-User-Id") Long userId){
+    ResponseEntity<Map<Book,String>> addInventoryInBulk(@RequestPart("file") MultipartFile file, @RequestHeader("X-User-Id") Long userId){
         Map<Object, Object> objectMap=new HashMap<>();
         objectMap.put("file",file);
         objectMap.put("user",userService.findById(userId));
-
+        objectMap.put("booksService",booksService);
         InventoryAddition inventoryAddition = InventoryFactory.getSourceService(Source.DEFAULT,objectMap);
         List<Book> bookList = inventoryAddition.fetchInventory();
         Map<Book,String> inventoryMap=inventoryAddition.addInventory(bookList);
         return ResponseEntity.ok(inventoryMap);
     }
     @PostMapping("/upload/source")
-    ResponseEntity<Map<Book,String>> addInventoryFromSource(@RequestBody Source source, @RequestHeader("X-User-Id") Long userId){
+    ResponseEntity<Map<Book,String>> addInventoryFromSource(@RequestParam Source source, @RequestHeader("X-User-Id") Long userId){
         Map<Object, Object> objectMap=new HashMap<>();
-        objectMap.put("user",userId);
+        objectMap.put("user",userService.findById(userId));
+        objectMap.put("booksService",booksService);
         InventoryAddition inventoryAddition = InventoryFactory.getSourceService(source,objectMap);
         List<Book> bookList = inventoryAddition.fetchInventory();
         Map<Book,String> inventoryMap=inventoryAddition.addInventory(bookList);
@@ -48,7 +49,6 @@ public class InventoryController {
 
     @PostMapping("/books")
     ResponseEntity<String>  addBook(@RequestBody Book book, @RequestHeader("X-User-Id") Long userId){
-        System.out.println("User Id:"+userId);
         User user=userService.findById(userId);
         book.setAddedBy(user);
         Book bookAdded=booksService.addBook(book);

@@ -3,13 +3,12 @@ package com.library.serviceImpl.inventory;
 import com.library.entities.Book;
 import com.library.entities.User;
 import com.library.enums.Source;
-import com.library.services.UserService;
+import com.library.services.BooksService;
 import com.library.services.inventory.InventoryAddition;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,12 +16,12 @@ import java.util.Map;
 
 public class AddInventoryFromS3 extends InventoryAddition {
 
-
     public AddInventoryFromS3(Source source, Map<Object,Object> map){
         super(source);
         if(map.get("user")!=null) {
             addedBy = (User) map.get("user");
         }
+        booksService= (BooksService) map.get("booksService");
     }
 
     public AddInventoryFromS3(Source source,Object additionParam){
@@ -44,7 +43,7 @@ public class AddInventoryFromS3 extends InventoryAddition {
 
     @Override
     public List<Book> fetchInventory() {
-        /*
+        /* Fetch data from S3
         AmazonS3 s3Client = AmazonS3ClientBuilder.standard().build();
         String bucketName = "your-bucket-name";
         String key = "path/to/your-file.csv";
@@ -57,7 +56,7 @@ public class AddInventoryFromS3 extends InventoryAddition {
                 String column1 = csvRecord.get("Column1");
                 String column2 = csvRecord.get("Column2");
                 // Process the data
-                System.out.printf("Column1: %s, Column2: %s%n", column1, column2);
+                System.out.println("Column1: %s, Column2: %s%n", column1, column2);
             }
             csvParser.close();
             reader.close();
@@ -65,13 +64,12 @@ public class AddInventoryFromS3 extends InventoryAddition {
             e.printStackTrace();
        }
          */
-        try (BufferedReader br = new BufferedReader(new FileReader("/books.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/file.csv"))) {
             String line;
-            // Skip the header if present
-            br.readLine();
+             br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
-                if (fields.length >= 2) {
+                if (fields.length >= 1) {
                     String bookName = fields[0].trim();
                     Book book=new Book();
                     book.setBookName(bookName);
@@ -80,10 +78,11 @@ public class AddInventoryFromS3 extends InventoryAddition {
                     books.add(new Book(book));
                 }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return books;
+        return new ArrayList<>(books);
     }
 }
 
