@@ -51,7 +51,7 @@ class BooksServiceImpl implements BooksService {
     }
     public Boolean removeBook(Long bookId){
         Book book=fetchBookByBookId(bookId);
-        if(bookMap.containsKey(book.getBookName()) && bookMap.get(book.getBookName()).containsKey(book.getBookId())){
+        if(book!=null && bookMap.containsKey(book.getBookName()) && bookMap.get(book.getBookName()).containsKey(book.getBookId())){
             Book fetchedbook=bookMap.get(book.getBookName()).get(book.getBookId());
             fetchedbook.setBookAvailabilityStatus(BookAvailabilityStatus.UNAVAILABLE);
             return true;

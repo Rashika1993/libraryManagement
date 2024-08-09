@@ -31,7 +31,7 @@ public class InventoryController {
         objectMap.put("file",file);
         objectMap.put("user",userService.findById(userId));
         objectMap.put("booksService",booksService);
-        InventoryAddition inventoryAddition = InventoryFactory.getSourceService(Source.DEFAULT,objectMap);
+        InventoryAddition inventoryAddition = InventoryFactory.getSourceService(Source.BULK,objectMap);
         List<Book> bookList = inventoryAddition.fetchInventory();
         Map<Book,String> inventoryMap=inventoryAddition.addInventory(bookList);
         inventoryMap.entrySet().removeIf(entry -> entry.getKey() == null);
@@ -53,6 +53,7 @@ public class InventoryController {
     ResponseEntity<String>  addBook(@RequestBody Book book, @RequestHeader("X-User-Id") Long userId){
         User user=userService.findById(userId);
         book.setAddedBy(user);
+        book.setSource(Source.SYSTEM);
         Book bookAdded=booksService.addBook(book);
         if(bookAdded!=null) {
             return ResponseEntity.status(HttpStatus.CREATED).body("Book added successfully.");
@@ -68,10 +69,10 @@ public class InventoryController {
     @DeleteMapping("/{id}")
     ResponseEntity<String>  removeBook(@PathVariable Long id){
         Boolean bookRemoved=booksService.removeBook(id);
-        if(bookRemoved!=null) {
+        if(bookRemoved!=null && bookRemoved) {
             return ResponseEntity.status(HttpStatus.OK).body("Book deleted successfully.");
         }else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to deleted the book.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to deleted the book as book isn't present.");
         }
     }
     @GetMapping("/{id}")
