@@ -22,6 +22,10 @@ public class AddBulkInventory extends InventoryAddition {
         }
         booksService= (BooksService) map.get("booksService");
     }
+    //The inventory addition is being done synchronously
+    // However, we can batch process it.
+    // We can align multiple worker threads which will run in parallel
+    // which will help in reducing latency and utilising CPU cores efficiently
     @Override
     public Map<Book,String> addInventory(List<Book> books) {
         Map<Book,String> bookInventory=new HashMap<>();
