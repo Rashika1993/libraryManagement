@@ -13,3 +13,4 @@ Manage book borrowing
 For Authorisation have added a header which which verify if the user is an Admin
 X-User-Id:1
 The postman collection has been added in resources folder
+Since the application isn't connecting to database hence we need to add data everytime we start the application
