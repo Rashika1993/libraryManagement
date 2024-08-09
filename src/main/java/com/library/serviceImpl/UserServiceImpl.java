@@ -23,9 +23,12 @@ public class UserServiceImpl implements UserService {
     }
     public User save(User user) {
         user.setUserId(userId.incrementAndGet());
-        userMap.put(user.getUserId(),user);
-        userTypeListMap.getOrDefault(user.getUserType(),new HashMap<>()).put(user.getUserId(),user);
-        return  user;
+        userMap.put(user.getUserId(), user);
+        if (userTypeListMap.get(user.getUserType()) == null) {
+            userTypeListMap.put(user.getUserType(), new HashMap<>());
+        }
+        userTypeListMap.getOrDefault(user.getUserType(), new HashMap<>()).put(user.getUserId(), user);
+        return user;
     }
     public void deleteById(Long id) {
         User user=userMap.get(id);
@@ -33,6 +36,7 @@ public class UserServiceImpl implements UserService {
         userTypeListMap.getOrDefault(user.getUserType(),new HashMap<>()).remove(id);
     }
     public List<User> fetchUsersBasedOnUserType(UserType userType){
+        System.out.println("userTypeListMap:"+userTypeListMap);
         if(userTypeListMap.get(userType)!=null) {
             return userTypeListMap.get(userType).values().stream().toList();
         }else{

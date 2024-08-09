@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UnauthorizedAccessException.class)
+    @ResponseBody
     public ResponseEntity<String> handleUnauthorizedAccessException(UnauthorizedAccessException ex) {
         return new ResponseEntity<>("Unauthorized access: " + ex.getMessage(), HttpStatus.FORBIDDEN);
     }
