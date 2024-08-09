@@ -34,6 +34,7 @@ public class InventoryController {
         InventoryAddition inventoryAddition = InventoryFactory.getSourceService(Source.DEFAULT,objectMap);
         List<Book> bookList = inventoryAddition.fetchInventory();
         Map<Book,String> inventoryMap=inventoryAddition.addInventory(bookList);
+        inventoryMap.entrySet().removeIf(entry -> entry.getKey() == null);
         return ResponseEntity.ok(inventoryMap);
     }
     @PostMapping("/upload/source")
@@ -44,10 +45,11 @@ public class InventoryController {
         InventoryAddition inventoryAddition = InventoryFactory.getSourceService(source,objectMap);
         List<Book> bookList = inventoryAddition.fetchInventory();
         Map<Book,String> inventoryMap=inventoryAddition.addInventory(bookList);
+        inventoryMap.entrySet().removeIf(entry -> entry.getKey() == null);
         return ResponseEntity.ok(inventoryMap);
     }
 
-    @PostMapping("/books")
+    @PostMapping
     ResponseEntity<String>  addBook(@RequestBody Book book, @RequestHeader("X-User-Id") Long userId){
         User user=userService.findById(userId);
         book.setAddedBy(user);
@@ -57,6 +59,10 @@ public class InventoryController {
         }else{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to add the book.");
         }
+    }
+    @GetMapping
+    ResponseEntity<List<Book>>  getAllBooks(){
+        return ResponseEntity.status(HttpStatus.OK).body(booksService.getAllBooks());
     }
 
     @DeleteMapping("/{id}")

@@ -15,10 +15,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>("Unauthorized access: " + ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<String> handleUserNotFoundException(String message) {
-        return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
-    }
     @ExceptionHandler(MultipartException.class)
     public ResponseEntity<String> handleMultipartException(MultipartException e) {
         return new ResponseEntity<>("Failed to parse multipart request: " + e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -28,6 +24,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public ResponseEntity<String> handleGenericException(Exception ex) {
+       ex.printStackTrace();
         return new ResponseEntity<>("An error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -2,6 +2,7 @@ package com.library.services;
 
 import com.library.entities.Book;
 
+import java.util.List;
 import java.util.Map;
 
 public interface BooksService {
@@ -10,4 +11,5 @@ public interface BooksService {
     Book updateBook(Book book);
     Book addBook(Book book);
     Boolean removeBook(Long bookId);
+    List<Book> getAllBooks();
 }

@@ -6,8 +6,7 @@ import com.library.services.BooksService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Service
@@ -58,6 +57,12 @@ class BooksServiceImpl implements BooksService {
             return true;
         }
         return false;
+    }
+    public List<Book> getAllBooks(){
+        if (bookIdMap!=null && !bookIdMap.isEmpty()) {
+            return bookIdMap.values().stream().toList();
+        }
+        return new ArrayList<>();
     }
 
 

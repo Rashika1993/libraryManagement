@@ -32,27 +32,34 @@ public class RentBooksServiceImpl implements RentBooksService {
             Book book = null;
             if(!bookName.isBlank()) {
                 Map<Long, Book> bookMap = booksService.fetchBooksByBookName(bookName);
-                for(Map.Entry<Long, Book> entry:bookMap.entrySet()){
-                    if(entry.getValue().getBookAvailabilityStatus()==BookAvailabilityStatus.AVAILABLE){
-                        book=entry.getValue();
-                        break;
+                if(bookMap!=null) {
+                    for (Map.Entry<Long, Book> entry : bookMap.entrySet()) {
+                        if (entry.getValue().getBookAvailabilityStatus() == BookAvailabilityStatus.AVAILABLE) {
+                            book = entry.getValue();
+                            break;
+                        }
                     }
-                }
-                if(book!=null){
-                    User user=userService.findById(userId);
-                    book.setRentUser(user);
-                    book.setBookAvailabilityStatus(BookAvailabilityStatus.BOOKED);
-                    book.setRentFrom(new Date());
-                    booksService.updateBook(book);
-                    if(!rentBook.containsKey(user.getUserId())) {
-                        rentBook.put(user.getUserId(), new HashMap<>());
+                    User user = userService.findById(userId);
+                    if (book != null && user!=null) {
+                        book.setRentUser(user);
+                        book.setBookAvailabilityStatus(BookAvailabilityStatus.BOOKED);
+                        book.setRentFrom(new Date());
+                        booksService.updateBook(book);
+                        if (!rentBook.containsKey(user.getUserId())) {
+                            rentBook.put(user.getUserId(), new HashMap<>());
+                        }
+                        rentBook.get(user.getUserId()).put(bookName, book.getBookId());
+                        bookResultMap.put(book, "Rented");
+                    } else {
+                        if(user==null) {
+                            bookResultMap.put(new Book(), "User isn't present");
+                        }else if(book==null){
+                            bookResultMap.put(new Book(), bookName + "book isn't available");
+                        }
                     }
-                    rentBook.get(user.getUserId()).put(bookName,book.getBookId());
-                    bookResultMap.put(book,"Rented");
-                }else {
-                    bookResultMap.put(book,"Book isn't available");
+                }else{
+                    bookResultMap.put(new Book(),bookName + "book isn't available");
                 }
-
             }else{
                 bookResultMap.put(book,"Missing Book Name");
             }
@@ -61,7 +68,7 @@ public class RentBooksServiceImpl implements RentBooksService {
     }
 
     boolean validateBookDetails(Book book, User user){
-        if(book!=null && !book.getBookName().isBlank() && book.getBookId()>0
+        if(book!=null && !book.getBookName().isBlank() && book.getBookId()>0 &&user!=null
                 && rentBook.containsKey(user.getUserId()) && rentBook.get(user.getUserId()).containsKey(book.getBookName())){
             return true;
         }
@@ -88,7 +95,11 @@ public class RentBooksServiceImpl implements RentBooksService {
                     bookResultMap.put(book,"Book isn't available in DB");
                 }
             }else{
-                bookResultMap.put(book,"Missing Book Details/Book isn't rented");
+                if(user==null){
+                    bookResultMap.put(book,"User isn't present");
+                }else {
+                    bookResultMap.put(book, "Missing Book Details/Book isn't rented");
+                }
             }
         }
         return bookResultMap;

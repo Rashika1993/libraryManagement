@@ -19,6 +19,7 @@ public class RentBooksController {
    public ResponseEntity<Map<Book,String>> rentBooks(@RequestBody List<String> bookNames, @RequestHeader("X-User-Id") Long userId){
        Map<Book,String> rentBooksMap= rentBooksService.rentBooks(userId,bookNames);
        if(!rentBooksMap.isEmpty()) {
+           rentBooksMap.entrySet().removeIf(entry -> entry.getKey() == null);
            return ResponseEntity.ok(rentBooksMap);
        }else{
            return ResponseEntity.notFound().build();
@@ -29,6 +30,7 @@ public class RentBooksController {
     public ResponseEntity<Map<Book,String>> returnBooks(@RequestBody List<Book> bookList, @RequestHeader("X-User-Id") Long userId){
         Map<Book,String> returnBookMap= rentBooksService.returnBooks(userId,bookList);
         if(!returnBookMap.isEmpty()) {
+            returnBookMap.entrySet().removeIf(entry -> entry.getKey() == null);
             return ResponseEntity.ok(returnBookMap);
         }else{
             return ResponseEntity.notFound().build();

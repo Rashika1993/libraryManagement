@@ -28,8 +28,8 @@ public class AuthFilter implements Filter {
             if (httpRequest.getHeader("X-User-Id") != null) {
                 userId = Long.parseLong(httpRequest.getHeader("X-User-Id"));
             }
-//            if (httpRequest.getRequestURI().matches("\\/users\\/.*"))
-//                userAccessService.checkIfUserAuthorised(userId);
+            //if (httpRequest.getRequestURI().matches("\\/users\\/.*"))
+              //  userAccessService.checkIfUserAuthorised(userId);
             filterChain.doFilter(servletRequest, servletResponse);
         } catch (UnauthorizedAccessException ex) {
             System.out.println("Exception: "+ex.getMessage());
