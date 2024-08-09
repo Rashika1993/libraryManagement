@@ -1,0 +1,409 @@
+{
+	"info": {
+		"_postman_id": "63763dfa-aee8-4649-be08-6993dbc3c25c",
+		"name": "LibraryManagementSystem",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4130731",
+		"_collection_link": "https://demandbase.postman.co/workspace/Demandbase-Workspace~8e373d58-13c8-4505-aca9-9fde09f7b37d/collection/4130731-63763dfa-aee8-4649-be08-6993dbc3c25c?action=share&source=collection_link&creator=4130731"
+	},
+	"item": [
+		{
+			"name": "Add New User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "3"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userType\":\"ADMIN\",\n    \"userName\":\"Rashika\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				},
+				"description": "Generated from cURL: curl --location 'http://localhost:8080/users' \\\n--header 'X-User-Id: 3' \\\n--header 'Content-Type: application/json' \\\n--data '{\n    \"userType\":\"ADMIN\",\n    \"userName\":\"Rashika\"\n}'"
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Books From S3(Currently done via local file)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "1"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/books/upload/source?source=S3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"upload",
+						"source"
+					],
+					"query": [
+						{
+							"key": "source",
+							"value": "S3"
+						}
+					]
+				},
+				"description": "Generated from cURL: curl --location --request POST 'http://localhost:8080/books/upload/source?source=S3' \\\n--header 'X-User-Id: 1'"
+			},
+			"response": []
+		},
+		{
+			"name": "Bulk Upload via Multipart File",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "1"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/rashikachopra/Downloads/file.csv"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/books/upload/bulk",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"upload",
+						"bulk"
+					]
+				},
+				"description": "Generated from cURL: curl --location 'http://localhost:8080/books/upload/bulk' \\\n--header 'X-User-Id: 1' \\\n--header 'Content-Type: multipart/form-data' \\\n--form 'file=@\"/Users/rashikachopra/Downloads/file.csv\"'"
+			},
+			"response": []
+		},
+		{
+			"name": "Return Book",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n[{\"bookId\":1,\"bookName\":\"Time Machine\"},{\"bookId\":2,\"bookName\":\"THE SECRET\"}]\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/return/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"return",
+						"books"
+					]
+				},
+				"description": "Generated from cURL: curl --location 'http://localhost:8080/return/books' \\\n--header 'X-User-Id: 2' \\\n--header 'Content-Type: application/json' \\\n--data '\n[{\"bookId\":1,\"bookName\":\"TimeTable\"},{\"bookId\":2,\"bookName\":\"THE SECRET\"}]\n'"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "3"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				},
+				"description": "Generated from cURL: curl --location 'http://localhost:8080/users' \\\n--header 'X-User-Id: 3' \\\n--header 'Content-Type: application/json'"
+			},
+			"response": []
+		},
+		{
+			"name": "Get User By Id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "3"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/users/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"1"
+					]
+				},
+				"description": "Generated from cURL: curl --location 'http://localhost:8080/users/0' \\\n--header 'X-User-Id: 3' \\\n--header 'Content-Type: application/json'"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Book By Id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/books/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"1"
+					]
+				},
+				"description": "Generated from cURL: curl --location --request GET 'http://localhost:8080/books' \\\n--header 'X-User-Id: 1' \\\n--header 'Content-Type: application/json' \\\n--data '{\n    \"bookName\":\"THE SECRET\"\n}'"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Books",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "1"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books"
+					]
+				},
+				"description": "Generated from cURL: curl --location 'http://localhost:8080/books' \\\n--header 'X-User-Id: 1' \\\n--data ''"
+			},
+			"response": []
+		},
+		{
+			"name": "Add a Book",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"bookName\":\"THE SECRET\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books"
+					]
+				},
+				"description": "Generated from cURL: curl --location 'http://localhost:8080/books' \\\n--header 'X-User-Id: 1' \\\n--header 'Content-Type: application/json' \\\n--data '{\n    \"bookName\":\"THE SECRET\"\n}'"
+			},
+			"response": []
+		},
+		{
+			"name": "Rent Books",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n[\"THE SECRET\"]\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/rent/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rent",
+						"books"
+					]
+				},
+				"description": "Generated from cURL: curl --location 'http://localhost:8080/rent/books' \\\n--header 'X-User-Id: 1' \\\n--header 'Content-Type: application/json' \\\n--data '\n[\"THE SECRET\"]\n'"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User By Id",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "3"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/users/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"3"
+					]
+				},
+				"description": "Generated from cURL: curl --location --request DELETE 'http://localhost:8080/users/1' \\\n--header 'X-User-Id: 3' \\\n--header 'Content-Type: application/json'"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Book By Id",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "3"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/books/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"1"
+					]
+				},
+				"description": "Generated from cURL: curl --location --request DELETE 'http://localhost:8080/users/1' \\\n--header 'X-User-Id: 3' \\\n--header 'Content-Type: application/json'"
+			},
+			"response": []
+		}
+	]
+}
