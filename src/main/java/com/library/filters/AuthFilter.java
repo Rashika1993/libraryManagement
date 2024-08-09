@@ -32,8 +32,7 @@ public class AuthFilter implements Filter {
               //  userAccessService.checkIfUserAuthorised(userId);
             filterChain.doFilter(servletRequest, servletResponse);
         } catch (UnauthorizedAccessException ex) {
-            System.out.println("Exception: "+ex.getMessage());
-            throw ex;
+           throw ex;
         }
     }
 

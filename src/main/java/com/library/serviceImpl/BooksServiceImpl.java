@@ -3,7 +3,6 @@ package com.library.serviceImpl;
 import com.library.entities.Book;
 import com.library.enums.BookAvailabilityStatus;
 import com.library.services.BooksService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    Long userId=0l;
     @Autowired
     private UserService userService;
 

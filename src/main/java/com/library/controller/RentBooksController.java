@@ -1,7 +1,6 @@
 package com.library.controller;
 
 import com.library.entities.Book;
-import com.library.entities.User;
 import com.library.services.RentBooksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -6,8 +6,6 @@ import com.library.enums.BookAvailabilityStatus;
 import com.library.services.BooksService;
 import com.library.services.RentBooksService;
 import com.library.services.UserService;
-import jakarta.jws.soap.SOAPBinding;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
