@@ -23,12 +23,10 @@ public class UserAccessServiceImpl implements UserAccessService {
     @Override
     public boolean checkIfUserAuthorised(Long currentUserId) {
         User user=userService.findById(currentUserId);
-        System.out.println(" User:"+user+" UserId:"+currentUserId);
         if(user!=null && user.getUserType()== UserType.ADMIN){
             return true;
         }
         List<User> userList=userService.fetchUsersBasedOnUserType(UserType.ADMIN);
-        System.out.println("UserList:"+userList+" User:"+user+" UserId:"+currentUserId);
         if(userList==null || userList.isEmpty()){
             return true;
         }

@@ -36,7 +36,6 @@ public class UserServiceImpl implements UserService {
         userTypeListMap.getOrDefault(user.getUserType(),new HashMap<>()).remove(id);
     }
     public List<User> fetchUsersBasedOnUserType(UserType userType){
-        System.out.println("userTypeListMap:"+userTypeListMap);
         if(userTypeListMap.get(userType)!=null) {
             return userTypeListMap.get(userType).values().stream().toList();
         }else{
