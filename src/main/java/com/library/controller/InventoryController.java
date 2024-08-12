@@ -30,7 +30,7 @@ public class InventoryController {
         Map<Object, Object> objectMap=new HashMap<>();
         objectMap.put("file",file);
         objectMap.put("user",userService.findById(userId));
-        InventoryAddition inventoryAddition = InventoryFactory.getSourceService(Source.BULK,objectMap);
+        InventoryAddition inventoryAddition = InventoryFactory.getSourceService(Source.BULK,objectMap,booksService);
         List<Book> bookList = inventoryAddition.fetchInventory();
         Map<Book,String> inventoryMap=inventoryAddition.addInventory(bookList);
         inventoryMap.entrySet().removeIf(entry -> entry.getKey() == null);
@@ -40,7 +40,7 @@ public class InventoryController {
     ResponseEntity<Map<Book,String>> addInventoryFromSource(@RequestParam Source source, @RequestHeader("X-User-Id") Long userId){
         Map<Object, Object> objectMap=new HashMap<>();
         objectMap.put("user",userService.findById(userId));
-        InventoryAddition inventoryAddition = InventoryFactory.getSourceService(source,objectMap);
+        InventoryAddition inventoryAddition = InventoryFactory.getSourceService(source,objectMap,booksService);
         List<Book> bookList = inventoryAddition.fetchInventory();
         Map<Book,String> inventoryMap=inventoryAddition.addInventory(bookList);
         inventoryMap.entrySet().removeIf(entry -> entry.getKey() == null);
