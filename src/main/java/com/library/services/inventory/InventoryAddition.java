@@ -16,9 +16,13 @@ abstract public class InventoryAddition {
     public User addedBy;
 
     public List<Book> books;
-    public InventoryAddition(Source source){
+    public InventoryAddition(Source source, Map<Object,Object> map){
         this.source= source;
-        books=new ArrayList<>();
+        this.books=new ArrayList<>();
+        if(map.get("user")!=null) {
+            this.addedBy = (User) map.get("user");
+        }
+        this.booksService= (BooksService) map.get("booksService");
     }
     public abstract Map<Book,String> addInventory(List<Book> books);
     public abstract List<Book> fetchInventory();

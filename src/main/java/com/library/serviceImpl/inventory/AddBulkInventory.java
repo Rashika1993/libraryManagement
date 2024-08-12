@@ -13,14 +13,7 @@ public class AddBulkInventory extends InventoryAddition {
     MultipartFile multipartFile;
 
     public AddBulkInventory(Source source, Map<Object,Object> map){
-        super(source);
-        if(map.get("user")!=null) {
-            addedBy = (User)map.get("user");
-        }
-        if(map.get("file")!=null) {
-            multipartFile = (MultipartFile) map.get("file");
-        }
-        booksService= (BooksService) map.get("booksService");
+        super(source,map);
     }
     //The inventory addition is being done synchronously
     // However, we can batch process it.
