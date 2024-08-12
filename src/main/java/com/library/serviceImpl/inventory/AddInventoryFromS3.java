@@ -16,8 +16,8 @@ import java.util.Map;
 
 public class AddInventoryFromS3 extends InventoryAddition {
 
-    public AddInventoryFromS3(Source source, Map<Object,Object> map){
-        super(source,map);
+    public AddInventoryFromS3(Source source, Map<Object,Object> map,BooksService booksService){
+        super(source,map,booksService);
     }
     @Override
     public Map<Book,String> addInventory(List<Book> books) {

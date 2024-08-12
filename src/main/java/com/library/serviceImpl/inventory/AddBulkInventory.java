@@ -4,6 +4,7 @@ import com.library.entities.User;
 import com.library.enums.Source;
 import com.library.services.BooksService;
 import com.library.services.inventory.InventoryAddition;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,8 +13,8 @@ import java.util.*;
 public class AddBulkInventory extends InventoryAddition {
     MultipartFile multipartFile;
 
-    public AddBulkInventory(Source source, Map<Object,Object> map){
-        super(source,map);
+    public AddBulkInventory(Source source, Map<Object,Object> map,BooksService booksService){
+        super(source,map,booksService);
     }
     //The inventory addition is being done synchronously
     // However, we can batch process it.

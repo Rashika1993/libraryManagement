@@ -11,8 +11,8 @@ import java.util.Map;
 
 public class AddInventoryFromDB extends InventoryAddition {
 
-    public AddInventoryFromDB(Source source, Map<Object,Object> map){
-        super(source,map);
+    public AddInventoryFromDB(Source source, Map<Object,Object> map,BooksService booksService){
+        super(source,map,booksService);
     }
     @Override
     public Map<Book,String> addInventory(List<Book> books) {
