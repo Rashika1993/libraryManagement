@@ -48,15 +48,15 @@ public class InventoryController {
     }
 
     @PostMapping
-    ResponseEntity<String>  addBook(@RequestBody Book book, @RequestHeader("X-User-Id") Long userId){
+    ResponseEntity<Book>  addBook(@RequestBody Book book, @RequestHeader("X-User-Id") Long userId){
         User user=userService.findById(userId);
         book.setAddedBy(user);
         book.setSource(Source.SYSTEM);
         Book bookAdded=booksService.addBook(book);
         if(bookAdded!=null) {
-            return ResponseEntity.status(HttpStatus.CREATED).body("Book added successfully.");
+            return ResponseEntity.status(HttpStatus.CREATED).body(bookAdded);
         }else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to add the book.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bookAdded);
         }
     }
     @GetMapping
