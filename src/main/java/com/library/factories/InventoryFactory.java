@@ -2,6 +2,7 @@ package com.library.factories;
 
 import com.library.enums.Source;
 import com.library.serviceImpl.inventory.AddBulkInventory;
+import com.library.serviceImpl.inventory.AddInventoryFromDB;
 import com.library.serviceImpl.inventory.AddInventoryFromS3;
 import com.library.services.BooksService;
 import com.library.services.inventory.InventoryAddition;
@@ -16,7 +17,7 @@ public class InventoryFactory {
         if(source==Source.S3){
           return new AddInventoryFromS3(source,map,new BatchProcessingStrategy(booksService));
         }else if(source==Source.MYSQL_DB){
-            return new AddInventoryFromS3(source,map,new BatchProcessingStrategy(booksService));
+            return new AddInventoryFromDB(source,map,new BatchProcessingStrategy(booksService));
         }else{
             return new AddBulkInventory(source,map,new BatchProcessingStrategy(booksService));
         }
