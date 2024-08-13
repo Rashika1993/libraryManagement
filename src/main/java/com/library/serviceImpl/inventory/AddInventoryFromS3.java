@@ -1,40 +1,24 @@
 package com.library.serviceImpl.inventory;
 
 import com.library.entities.Book;
-import com.library.entities.User;
 import com.library.enums.Source;
 import com.library.services.BooksService;
 import com.library.services.inventory.InventoryAddition;
+import com.library.strategies.ProcessingStrategy;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
 public class AddInventoryFromS3 extends InventoryAddition {
 
-    public AddInventoryFromS3(Source source, Map<Object,Object> map,BooksService booksService){
-        super(source,map,booksService);
+    public AddInventoryFromS3(Source source, Map<Object,Object> map, ProcessingStrategy processingStrategy){
+        super(source,map,processingStrategy);
     }
     @Override
-    public Map<Book,String> addInventory(List<Book> books) {
-        Map<Book,String> bookInventory=new HashMap<>();
-        for(Book book:books) {
-            Book addedBook=booksService.addBook(book);
-            if(addedBook!=null){
-                bookInventory.put(addedBook,"Book Addition Successful!");
-            }else {
-                bookInventory.put(addedBook,"Book Addition Failed!");
-            }
-        }
-        return bookInventory;
-    }
-
-    @Override
-    public List<Book> fetchInventory() {
+    public Map<Book,String> fetchAndAddInventory(){
         /* Fetch data from S3
         AmazonS3 s3Client = AmazonS3ClientBuilder.standard().build();
         String bucketName = "your-bucket-name";
@@ -56,25 +40,14 @@ public class AddInventoryFromS3 extends InventoryAddition {
             e.printStackTrace();
        }
          */
+        Map<Book,String> bookStringMap=new HashMap<>();
         try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/file.csv"))) {
-            String line;
-             br.readLine();
-            while ((line = br.readLine()) != null) {
-                String[] fields = line.split(",");
-                if (fields.length >= 1) {
-                    String bookName = fields[0].trim();
-                    Book book=new Book();
-                    book.setBookName(bookName);
-                    book.setAddedBy(addedBy);
-                    book.setSource(source);
-                    books.add(new Book(book));
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
+            bookStringMap=processingStrategy.process(br,addedBy,source);
+        } catch (Exception e) {
+            e.printStackTrace(); // Handle exception as needed
         }
-        return new ArrayList<>(books);
+        return bookStringMap;
     }
+
 }
 

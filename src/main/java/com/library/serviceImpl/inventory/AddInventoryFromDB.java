@@ -5,32 +5,27 @@ import com.library.entities.User;
 import com.library.enums.Source;
 import com.library.services.BooksService;
 import com.library.services.inventory.InventoryAddition;
+import com.library.strategies.ProcessingStrategy;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class AddInventoryFromDB extends InventoryAddition {
 
-    public AddInventoryFromDB(Source source, Map<Object,Object> map,BooksService booksService){
-        super(source,map,booksService);
+    public AddInventoryFromDB(Source source, Map<Object,Object> map, ProcessingStrategy processingStrategy){
+        super(source,map,processingStrategy);
     }
-    @Override
-    public Map<Book,String> addInventory(List<Book> books) {
-        Map<Book,String> bookInventory=new HashMap<>();
-        for(Book book:books) {
-            Book addedBook=booksService.addBook(book);
-            if(addedBook!=null){
-                bookInventory.put(addedBook,"Book Addition Successful!");
-            }else {
-                bookInventory.put(addedBook,"Book Addition Failed!");
-            }
+    public Map<Book,String> fetchAndAddInventory(){
+        Map<Book,String> bookStringMap=new HashMap<>();
+        try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/file.csv"))) {
+            bookStringMap=processingStrategy.process(br,addedBy,source);
+        } catch (Exception e) {
+            e.printStackTrace(); // Handle exception as needed
         }
-        return bookInventory;
+        return bookStringMap;
     }
 
-    @Override
-    public List<Book> fetchInventory() {
-        return List.of();
-    }
 
 }
